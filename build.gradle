@@ -4,8 +4,6 @@ buildscript {
         karateVersion = '0.9.5'
         masterThoughtVersion = '5.1.1'
         junitVersion = '4.13'
-//        junit5Version = '5.5.0'
-//        hamcrestVersion = '2.2'
     }
     repositories {
         maven { url 'https://plugins.gradle.org/m2/' }
@@ -40,12 +38,9 @@ sourceSets {
 
 dependencies {
     testCompile 'junit:junit:' + junitVersion
-//    testCompile 'org.junit.jupiter:junit-jupiter-api:' + junit5Version
-//    testCompile 'org.junit.jupiter:junit-jupiter-engine:' + junit5Version
     testCompile 'com.intuit.karate:karate-junit4:' + karateVersion
     testCompile 'com.intuit.karate:karate-apache:' + karateVersion
     testCompile 'net.masterthought:cucumber-reporting:' + masterThoughtVersion
-//    testImplementation 'org.hamcrest:hamcrest:' + hamcrestVersion
 }
 
 task karateExecute(type: JavaExec) {
