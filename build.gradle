@@ -1,0 +1,87 @@
+buildscript {
+    ext {
+        gradleVersionProperty = '5.2.1'
+        karateVersion = '0.9.5'
+        masterThoughtVersion = '5.1.1'
+        junitVersion = '4.13'
+//        junit5Version = '5.5.0'
+//        hamcrestVersion = '2.2'
+    }
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+}
+
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+sourceSets {
+    test {
+        java {
+            srcDir file('src/test/java')
+        }
+        resources {
+            srcDir file('src/test/java')
+            exclude '**/*.java'
+        }
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:' + junitVersion
+//    testCompile 'org.junit.jupiter:junit-jupiter-api:' + junit5Version
+//    testCompile 'org.junit.jupiter:junit-jupiter-engine:' + junit5Version
+    testCompile 'com.intuit.karate:karate-junit4:' + karateVersion
+    testCompile 'com.intuit.karate:karate-apache:' + karateVersion
+    testCompile 'net.masterthought:cucumber-reporting:' + masterThoughtVersion
+//    testImplementation 'org.hamcrest:hamcrest:' + hamcrestVersion
+}
+
+task karateExecute(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = System.properties.getProperty('mainClass')
+}
+
+task karateDebug(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'com.intuit.karate.cli.Main'
+}
+
+test {
+    // When running the test task, only run the base Test class which runs all cucumber
+    // tests in parallel.
+    include '**/*APITest*'
+    // Pull karate options into the runtime
+    systemProperty "karate.options", System.properties.getProperty("karate.options")
+    // Pull karate options into the JVM
+    systemProperty "karate.env", System.properties.getProperty("karate.env")
+    // Ensure tests are always run
+    outputs.upToDateWhen { false }
+    // attach debugger
+    if (System.getProperty('debug', 'false') == 'true') {
+        jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9009'
+    }
+}
+
+clean.doFirst {
+    delete "${rootDir}/target"
+    delete "${rootDir}/bin"
+    delete "${rootDir}/build"
+    delete "${rootDir}/out"
+    println "Clean: Deleted bin, build, out and target directories"
+}
+
+wrapper {
+    gradleVersion = gradleVersionProperty
+}
