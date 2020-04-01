@@ -21,7 +21,6 @@ public class APITest {
 
     @Test
     public void testParallel() {
-        List<String> tags = new ArrayList<>();
         String customTagsToRun = System.getenv("tag");
 
         Results results = null;
