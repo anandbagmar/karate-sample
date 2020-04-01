@@ -5,3 +5,4 @@ out/
 .settings/
 .vscode/
 target/
+bin/
