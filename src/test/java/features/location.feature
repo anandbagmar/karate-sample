@@ -4,14 +4,14 @@ Feature: location
   Background:
     * url "http://api.zippopotam.us/"
 
-  @single
+  @single @get
   Scenario: get location in India
     Given path 'in/411006'
     When method get
     Then status 200
     And match response contains {'post code': '411006', 'country': 'India'}
 
-  @multiple
+  @multiple @get
   Scenario Outline: get locations across the globe
     * def query = { postcode: '<postcode>', country: '<country>',expectedPlaceName:'<expectedPlaceName>', expectedCountry:'<expectedCountry>' }
     Given path '<country>/<postcode>'
