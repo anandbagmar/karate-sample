@@ -28,34 +28,45 @@ Feature: pet store
       | pending   |
       | sold      |
 
-    @ip
-    Scenario: Find and update pet
-      Given path '/findByStatus'
-      And param status = 'available'
-      When method get
-      Then status 200
-      And print 'Number of pets: available - ' + response.length
-      * def resp = response
-      * def pet = resp[0]
-      * print 'Pet chosen for update: ', pet
-      * def id = pet.id
-      * print 'id of pet available: ', id
+  @put @pet
+  Scenario: Find and update pet
+    Given path '/findByStatus'
+    And param status = 'available'
+    When method get
+    Then status 200
+    And print 'Number of pets: available - ' + response.length
+    * def resp = response
+    * def pet = resp[0]
+    * print 'Pet chosen for update: ', pet
+    * def id = pet.id
+    * print 'id of pet available: ', id
 
-      * def orgName = pet.name
-      * def newName = pet.name + ' ' + pet.name
+    * def orgName = pet.name
+    * def newName = pet.name + ' ' + pet.name
 #      * print orgName
 #      * print newName
-      * pet.name = newName
-      * def tag1 = { name: '#(orgName)', id: #(id) }
-      * def tag2 = { name: 'new name added', id: #(id) }
+    * pet.name = newName
+    * def tag1 = { name: '#(orgName)', id: #(id) }
+    * def tag2 = { name: 'new name added', id: #(id) }
 #      * print tag1
 #      * print tag2
-      * pet.tags = [tag1, tag2]
+    * pet.tags = [tag1, tag2]
 
-      Given path ''
-      And request pet
-      When method put
-      Then status 200
-      And def updatedPet = response
-      * print 'updatedPet:', updatedPet
-      
+    Given path ''
+    And request pet
+    When method put
+    Then status 200
+    And def updatedPet = response
+    * print 'updatedPet:', updatedPet
+
+  @post
+  Scenario: Create a new pet
+    * def newPetInfo = read('newPet.json')
+    * newPetInfo.name = newPetInfo.category.name
+    * print newPetInfo
+    Given request newPetInfo
+    And method post
+    Then status 200
+    And def resp = response
+    * print 'pet created: ', resp
+

@@ -1,0 +1,22 @@
+{
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "poodle"
+  },
+  "name": "no name",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string1"
+    },
+    {
+      "id": 0,
+      "name": "string2"
+    }
+  ],
+  "status": "available"
+}
