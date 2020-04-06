@@ -9,3 +9,14 @@ The tests can be run from command line:
 OR,
 
 From an IDE, you can run the test **APITest**
+
+# References
+
+* https://github.com/intuit/karate
+* https://github.com/intuit/karate#type-json
+* https://github.com/intuit/karate#reading-files
+
+## Sample APIs for Testing
+
+* https://petstore.swagger.io
+* http://api.zippopotam.us/
