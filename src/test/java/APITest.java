@@ -25,8 +25,10 @@ public class APITest {
 
         Results results = null;
         if (customTagsToRun == null) {
+            System.out.println("Run all tests");
             results = Runner.path("classpath:features").tags("~@ignore").parallel(5);
         } else {
+            System.out.println("Run tests with tag - " + customTagsToRun);
             results = Runner.path("classpath:features").tags("~@ignore", customTagsToRun).parallel(5);
         }
 
