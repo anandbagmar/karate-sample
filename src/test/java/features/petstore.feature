@@ -4,12 +4,21 @@ Feature: pet store
   Background:
     * url "https://petstore.swagger.io/v2/pet"
 
+    * configure afterScenario =
+    """
+    function(){
+      var info = karate.info;
+      karate.log('afterScenario', info.scenarioType + ':', info.scenarioName);
+    }
+    """
+
   @single @get
   Scenario Outline: get multiple pet status
     Given path '/findByStatus'
     And param status = '<petStatus>,sold'
     When method get
     Then status 200
+    And print response
     And print 'Number of pets: <petStatus>,sold - ' + response.length
     Examples:
       | petStatus |
@@ -21,6 +30,7 @@ Feature: pet store
     And param status = '<petStatus>'
     When method get
     Then status 200
+    And print response
     And print 'Number of pets: <petStatus> - ' + response.length
     Examples:
       | petStatus |
@@ -34,6 +44,7 @@ Feature: pet store
     And param status = 'available'
     When method get
     Then status 200
+    And print response
     And print 'Number of pets: available - ' + response.length
     * def resp = response
     * def pet = resp[0]
@@ -43,13 +54,9 @@ Feature: pet store
 
     * def orgName = pet.name
     * def newName = pet.name + ' ' + pet.name
-#      * print orgName
-#      * print newName
     * pet.name = newName
     * def tag1 = { name: '#(orgName)', id: #(id) }
     * def tag2 = { name: 'new name added', id: #(id) }
-#      * print tag1
-#      * print tag2
     * pet.tags = [tag1, tag2]
 
     Given path ''
@@ -67,6 +74,5 @@ Feature: pet store
     Given request newPetInfo
     And method post
     Then status 200
-    And def resp = response
-    * print 'pet created: ', resp
+    * print 'pet created: ', response
 
