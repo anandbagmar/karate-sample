@@ -26,12 +26,11 @@ public class APITest {
         Results results = null;
         if (customTagsToRun == null) {
             System.out.println("Run all tests");
-            results = Runner.path("classpath:features").tags("~@ignore").parallel(5);
+            results = Runner.path("classpath:features").tags("~@ignore").reportDir("reports/surefire-reports").parallel(10);
         } else {
             System.out.println("Run tests with tag - " + customTagsToRun);
-            results = Runner.path("classpath:features").tags("~@ignore", customTagsToRun).parallel(5);
+            results = Runner.path("classpath:features").tags("~@ignore", customTagsToRun).reportDir("reports/surefire-reports").parallel(10);
         }
-
         generateReport(results.getReportDir());
         Assert.assertTrue(results.getErrorMessages(), results.getFailCount() == 0);
     }
@@ -44,8 +43,9 @@ public class APITest {
         Collection<File> jsonFiles = FileUtils.listFiles(new File(karateOutputPath), new String[]{"json"}, true);
         List<String> jsonPaths = new ArrayList(jsonFiles.size());
         jsonFiles.forEach(file -> jsonPaths.add(file.getAbsolutePath()));
-        Configuration config = new Configuration(new File("target"), "demo");
+        Configuration config = new Configuration(new File("reports"), "karate-sample");
         ReportBuilder reportBuilder = new ReportBuilder(jsonPaths, config);
         reportBuilder.generateReports();
+        System.out.println("Reports available here: " + config.getReportDirectory().getAbsolutePath() + "/cucumber-html-reports/overview-features.html");
     }
 }

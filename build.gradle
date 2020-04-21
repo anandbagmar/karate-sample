@@ -10,9 +10,14 @@ buildscript {
     }
 }
 
-apply plugin: 'eclipse'
-apply plugin: 'java'
-apply plugin: 'idea'
+plugins {
+    id 'project-report'
+    id 'eclipse'
+    id 'java'
+    id 'idea'
+}
+
+project.ext.logDir = "${rootDir}/reports"
 
 group 'org.example'
 version '1.0-SNAPSHOT'
@@ -45,7 +50,7 @@ dependencies {
 
 task karateExecute(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = System.properties.getProperty('mainClass')
+    main = 'com.intuit.karate.cli.Main'
 }
 
 task karateDebug(type: JavaExec) {
@@ -54,8 +59,22 @@ task karateDebug(type: JavaExec) {
 }
 
 test {
-    // When running the test task, only run the base Test class which runs all cucumber
-    // tests in parallel.
+    reports.html.enabled = true
+    reports.html.setDestination(file("${project.logDir}/html"))
+
+    reports.junitXml.enabled = true
+    reports.junitXml.setDestination(file("${project.logDir}/junit"))
+    testLogging {
+        events "started", "passed", "skipped", "failed"
+        // show standard out and standard error of the test JVM(s) on the console
+        showStandardStreams = true
+        // show full exception trace
+        exceptionFormat = 'full'
+        showStackTraces = true
+        showCauses = true
+        showExceptions = true
+    }
+
     include '**/*APITest*'
     // Pull karate options into the runtime
     systemProperty "karate.options", System.properties.getProperty("karate.options")
@@ -74,7 +93,13 @@ clean.doFirst {
     delete "${rootDir}/bin"
     delete "${rootDir}/build"
     delete "${rootDir}/out"
-    println "Clean: Deleted bin, build, out and target directories"
+    delete "${rootDir}/reports"
+    println "Clean: Deleted bin, build, out, target and reports directories"
+}
+
+clean.doLast {
+    mkdir  "${rootDir}/reports"
+    println "Created reports directory"
 }
 
 wrapper {
