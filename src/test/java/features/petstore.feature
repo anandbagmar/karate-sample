@@ -23,6 +23,11 @@ Feature: pet store
     Examples:
       | petStatus |
       | available |
+      | available |
+      | sold      |
+      | available |
+      | available |
+      | available |
 
   @multiple @get
   Scenario Outline: get pet status
