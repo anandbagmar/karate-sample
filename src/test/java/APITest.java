@@ -3,9 +3,7 @@ import com.intuit.karate.Runner;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,17 +11,28 @@ import java.util.Collection;
 import java.util.List;
 
 public class APITest {
+    Results results = null;
 
     @BeforeClass
     public static void beforeClass() throws Exception {
         TestBase.beforeClass();
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println("APITest: Before Class");
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    }
+
+    @AfterClass
+    public static void afterClass() throws Exception {
+        TestBase.afterClass();
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println("APITest: After Class");
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     }
 
     @Test
     public void testParallel() {
         String customTagsToRun = System.getenv("tag");
 
-        Results results = null;
         if (customTagsToRun == null) {
             System.out.println("Run all tests");
             results = Runner.path("classpath:features").tags("~@ignore").reportDir("reports/surefire-reports").parallel(10);
@@ -31,12 +40,20 @@ public class APITest {
             System.out.println("Run tests with tag - " + customTagsToRun);
             results = Runner.path("classpath:features").tags("~@ignore", customTagsToRun).reportDir("reports/surefire-reports").parallel(10);
         }
-        generateReport(results.getReportDir());
+    }
+
+    @After
+    public void afterMethod() {
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println("APITest: After Method");
+
+        String reportLocation = generateReport(results.getReportDir());
+        System.out.println("Reports available here: " + reportLocation);
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         Assert.assertTrue(results.getErrorMessages(), results.getFailCount() == 0);
     }
 
-
-    public static void generateReport(String karateOutputPath) {
+    private static String generateReport(String karateOutputPath) {
         System.out.println("================================");
         System.out.println("Generating reports");
         System.out.println("================================");
@@ -46,6 +63,6 @@ public class APITest {
         Configuration config = new Configuration(new File("reports"), "karate-sample");
         ReportBuilder reportBuilder = new ReportBuilder(jsonPaths, config);
         reportBuilder.generateReports();
-        System.out.println("Reports available here: " + config.getReportDirectory().getAbsolutePath() + "/cucumber-html-reports/overview-features.html");
+        return config.getReportDirectory().getAbsolutePath() + "/cucumber-html-reports/overview-features.html";
     }
 }
