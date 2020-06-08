@@ -1,9 +1,9 @@
 buildscript {
     ext {
         gradleVersionProperty = '5.2.1'
-        karateVersion = '0.9.5'
-        masterThoughtVersion = '5.1.1'
-        junitVersion = '4.13'
+        karateVersion = '0.9.+'
+        masterThoughtVersion = '5.+'
+        junitVersion = '4.+'
     }
     repositories {
         maven { url 'https://plugins.gradle.org/m2/' }
@@ -46,6 +46,7 @@ dependencies {
     testCompile 'com.intuit.karate:karate-junit4:' + karateVersion
     testCompile 'com.intuit.karate:karate-apache:' + karateVersion
     testCompile 'net.masterthought:cucumber-reporting:' + masterThoughtVersion
+    testCompile group: 'commons-codec', name: 'commons-codec', version: '1.14'
 }
 
 task karateExecute(type: JavaExec) {
