@@ -1,0 +1,14 @@
+{
+  "local": {
+    "default": "India",
+    "state": "transient"
+  },
+  "dev": {
+    "default": "dev",
+    "state": "almost there"
+  },
+  "qa": {
+    "default": "qa",
+    "state": "stable"
+  }
+}

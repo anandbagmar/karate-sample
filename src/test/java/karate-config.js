@@ -1,21 +1,13 @@
 function fn() {   
   var env = karate.env; // get system property 'karate.env'
   if (!env) {
-    env = 'dev';
+    env = 'qa';
   }
-  var config = {
-    env: env,
-    testConfig: 'bar'
-  }
-  if (env == 'dev') {
-    // customize
-    // e.g. config.foo = 'bar';
-  } else if (env == 'e2e') {
-    // customize
-  }
+  var testDataConfig = read('classpath:test_data.json');
   var port = karate.properties['karate.server.port'];
   port = port || '8080';
-  config.mockServerUrl = 'http://localhost:' + port + '/v1/';
+  testDataConfig.mockServerUrl = 'http://localhost:' + port + '/v1/';
   karate.log("Environment: " + env);
-  return config;
+  var loadedValues = karate.callSingle('commonJSFunctions.js', testDataConfig[env]);
+  return loadedValues;
 }
