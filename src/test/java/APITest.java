@@ -31,15 +31,18 @@ public class APITest {
 
     @Test
     public void testParallel() {
-        String customTagsToRun = System.getenv("tag");
+        String parallel = System.getProperty("parallel");
+        int parallelCount = (null == parallel) ? 30 : Integer.parseInt(parallel);
+        System.out.println("Parallel count: " + parallelCount);
 
-        if (customTagsToRun == null) {
-            System.out.println("Run all tests");
-            results = Runner.path("classpath:features").tags("~@ignore").reportDir("reports/surefire-reports").parallel(10);
-        } else {
-            System.out.println("Run tests with tag - " + customTagsToRun);
-            results = Runner.path("classpath:features").tags("~@ignore", customTagsToRun).reportDir("reports/surefire-reports").parallel(10);
-        }
+        String customTagsToRun = System.getProperty("tag");
+        List<String> strings = new ArrayList<>();
+        strings.add("~@ignore");
+        strings.add("~@wip");
+        strings.add("~@template");
+        if ((null != customTagsToRun) && (!customTagsToRun.trim().isEmpty())) { strings.add(customTagsToRun); }
+        System.out.println("Run tests with tag - " + strings);
+        results = Runner.path("classpath:features").tags(strings).reportDir("reports/surefire-reports").parallel(parallelCount);
     }
 
     @After
