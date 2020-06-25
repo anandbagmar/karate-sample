@@ -1,0 +1,11 @@
+Feature: Contract for the petstore service
+
+  Scenario: Create a new pet
+    And pattern Pet
+      | name   | (string) |
+      | type   | (string) |
+      | status | (string) |
+    When PUT /pets
+    And request-body (Pet)
+    Then status 200
+    And response-body (number)

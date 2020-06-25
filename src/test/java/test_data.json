@@ -1,14 +1,17 @@
 {
   "local": {
     "default": "India",
-    "state": "transient"
+    "state": "transient",
+    "generatedToken": "invalid-local"
   },
   "dev": {
     "default": "dev",
-    "state": "almost there"
+    "state": "almost there",
+    "generatedToken": "invalid-dev"
   },
   "qa": {
     "default": "qa",
-    "state": "stable"
+    "state": "stable",
+    "generatedToken": "invalid-qa"
   }
 }
