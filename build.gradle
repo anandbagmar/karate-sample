@@ -60,6 +60,11 @@ task karateDebug(type: JavaExec) {
 }
 
 test {
+    doFirst {
+        systemProperty "tag", System.getProperty("tag") ? "${System.getProperty("tag")}" : ""
+        systemProperty "parallel", System.getProperty("parallel") ? "${System.getProperty("parallel")}" : "1"
+    }
+
     reports.html.enabled = true
     reports.html.setDestination(file("${project.logDir}/html"))
 
@@ -102,6 +107,8 @@ clean.doLast {
     mkdir  "${rootDir}/reports"
     println "Created reports directory"
 }
+
+test.dependsOn clean
 
 wrapper {
     gradleVersion = gradleVersionProperty
