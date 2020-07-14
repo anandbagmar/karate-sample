@@ -49,8 +49,8 @@ Feature: New Feature
       | ReturnUrl          | (string) |
       | PaymentUrl         | (string) |
       | Version            | (string) |
-      | MobileNumber       | (string) |
-      | Customerid         | (string) |
+      | MobileNumber       | (number in string) |
+      | Customerid         | (number in string) |
       | IncludePayModes    | (string) |
       | ExcludePayModes    | (string) |
       | ProductDescription | (string) |

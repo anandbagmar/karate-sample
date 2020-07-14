@@ -11,7 +11,14 @@ Feature: Payment related scenarios
       "RequestId": #(generateRandomNumber(8))
     }
     """
-    * def waitFor = function(sec){ java.lang.Thread.sleep(sec * 1000) }
+    * def waitFor =
+    """
+      function(sec) {
+        karate.log("wait for " + sec + " seconds");
+        java.lang.Thread.sleep(sec * 1000)
+      }
+
+    """
 
   @foo
   Scenario Outline: When merchant clicks on Pay Now to pay for his order
@@ -66,7 +73,6 @@ Feature: Payment related scenarios
       }
     }
     """
-    And set requestBodyHeaders_v1.Version = version
     And set getRequestData.Request.Header = requestBodyHeaders_v1
     And print "getRequestData: " + getRequestData
     * call read('classpath:features/MultipleExpectations.feature@q_getRequest_expectations') { getRequestData: #(getRequestData) }
