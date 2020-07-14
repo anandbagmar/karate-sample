@@ -11,6 +11,66 @@ Feature: pet store
       karate.log('afterScenario', info.scenarioType + ':', info.scenarioName);
     }
     """
+    * def getPets =
+    """
+    {
+  "http-request": {
+    "method": "GET",
+    "path": "/pets",
+    "query": {
+      "type": "dog",
+      "status": "available",
+      "name": "new"
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "body": [
+      {
+        "name": "Archie",
+        "type": "dog",
+        "status": "available",
+        "id": 10
+      },
+      {
+        "name": "Reggie",
+        "type": "dog",
+        "status": "available",
+        "id": 20
+      }
+    ]
+  }
+}
+    """
+
+#  http://localhost:8080/_stub_setup
+
+  @runtimestub
+    Scenario: runtime cerate stub
+    Given url 'http://localhost:8080/_stub_setup'
+    And request getPets
+    When method post
+    Then status 200
+    * print "stub created" + response
+
+    Given url 'http://localhost:8080/pets'
+    And param name = "new"
+    And param status = "available"
+    And param type = "dog"
+    When method get
+    Then status 200
+    * print response
+
+
+
+
+  @createpets
+  Scenario: create a new pet
+    Given url 'http://localhost:8080/pets'
+    And request {'name': 'pup', 'type': 'dog', 'status': 'available'}
+    When method put
+    Then status 200
+    * print response
 
   @single @get
   Scenario Outline: get multiple pet status
@@ -23,10 +83,10 @@ Feature: pet store
     Examples:
       | petStatus |
       | available |
-      | available |
-      | sold      |
-      | available |
-      | available |
+#      | available |
+#      | sold      |
+#      | available |
+#      | available |
       | available |
 
   @multiple @get

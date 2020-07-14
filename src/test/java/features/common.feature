@@ -10,3 +10,11 @@ Feature: Common utility functions
     return new GenerateMAC().generate(arguments[0], arguments[1], arguments[2], arguments[3]);
   }
   """
+#    * def random = generateRandomNumber(10)
+#    * def newToken = updateToken(random)
+#    * def token = isTokenValid("generatedToken") ? getCreatedToken : newToken
+
+  @token @ignore
+  Scenario: Generate token
+    * def newToken = generateRandomNumber(10)
+    * print "Generate token: " + newToken

@@ -1,0 +1,88 @@
+Feature: New Feature
+
+  Scenario Outline: New scenario
+    Given type SplitDetails
+      | Amount | (Amount_: string) |
+      | MID    | (string)          |
+      | TID    | (string)          |
+    And type Body
+      | Amount          | (string)        |
+      | IsEcomm         | (number)        |
+      | MobileNo        | (number)        |
+      | PurchaseDetails | (null)          |
+      | PurchaseId      | (string)        |
+      | SplitDetails    | (SplitDetails*) |
+      | SupplierId      | (string)        |
+      | TimeStamp       | (string)        |
+      | DeviceId        | (string)        |
+      | POSTerminalId   | (string)        |
+      | PayMode         | (null)          |
+      | Product         | (string)        |
+      | RequestTime     | (string)        |
+      | StoreId         | (string)        |
+      | Version         | (string)        |
+      | CategoryId      | (null)          |
+    And type Header
+      | DeviceId    | (DeviceId_: string)    |
+      | Product     | (Product_: string)     |
+      | Version     | (Version_: string)     |
+      | RequestTime | (RequestTime_: string) |
+      | RequestId   | (string)               |
+    And type Request
+      | Body   | (Body)   |
+      | Header | (Header) |
+    And type Control
+      | Status    | (number) |
+      | Message   | (string) |
+      | TimeTaken | (string) |
+    And type Data
+      | SUPERMID           | (string) |
+      | CLIENTID           | (string) |
+      | MERCHANTNAME       | (string) |
+      | CHANNEL            | (string) |
+      | CURRENCY           | (string) |
+      | TXNTYPE            | (string) |
+      | Time               | (string) |
+      | Checksum           | (string) |
+      | Amount             | (string) |
+      | RefNo              | (string) |
+      | ReturnUrl          | (string) |
+      | PaymentUrl         | (string) |
+      | Version            | (string) |
+      | MobileNumber       | (string) |
+      | Customerid         | (string) |
+      | IncludePayModes    | (string) |
+      | ExcludePayModes    | (string) |
+      | ProductDescription | (string) |
+      | UDF1               | (string) |
+      | UDF2               | (string) |
+      | UDF3               | (string) |
+      | UDF4               | (string) |
+      | UDF5               | (string) |
+      | SIFlag             | (string) |
+      | SICustomerId       | (string) |
+      | SIProductId        | (string) |
+      | SIProductDesc      | (string) |
+      | SIMaxAmount        | (string) |
+      | SIFrequency        | (string) |
+      | SIExpiryDate       | (string) |
+      | SIAmountType       | (string) |
+      | JMAcctType         | (string) |
+      | Addline1           | (string) |
+      | Addline2           | (string) |
+      | City               | (string) |
+      | State              | (string) |
+      | Zipcode            | (string) |
+      | LTM                | (string) |
+    And type ResponseBody
+      | Control | (Control) |
+      | Data    | (Data)    |
+    When POST /Order/Payment/getRequest
+    And form-field Request (Request)
+    Then status 200
+    And response-body (ResponseBody)
+
+    Examples:
+      | Amount | IsEcomm | MobileNo   | PurchaseId | Amount_ | MID             | TID      | SupplierId | TimeStamp      | DeviceId        | POSTerminalId | Product | RequestTime | StoreId | Version | DeviceId_       | Product_ | Version_ | RequestTime_ | RequestId |
+      | 0      | 1       | 6689784546 | 100477410  | 0       | 100001000217529 | 10232866 | 10000011   | 20200525184059 | 957776507033874 | 10232866      | 2       | 7085566046  | 1419972 | 2       | 953012497043524 | 2        | 2.1      | 6219521824   | 95168898  |
+  

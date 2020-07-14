@@ -2,6 +2,7 @@ import com.intuit.karate.Results;
 import com.intuit.karate.Runner;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
+import net.masterthought.cucumber.presentation.PresentationMode;
 import org.apache.commons.io.FileUtils;
 import org.junit.*;
 
@@ -56,6 +57,10 @@ public class APITest {
         Assert.assertTrue(results.getErrorMessages(), results.getFailCount() == 0);
     }
 
+    public static void main(String[] args) {
+        String reportLocation = generateReport("/Users/anandbagmar/projects/my/karate-sample/reports/surefire-reports");
+        System.out.println("Reports available here: " + reportLocation);
+    }
     private static String generateReport(String karateOutputPath) {
         System.out.println("================================");
         System.out.println("Generating reports");
@@ -64,6 +69,13 @@ public class APITest {
         List<String> jsonPaths = new ArrayList(jsonFiles.size());
         jsonFiles.forEach(file -> jsonPaths.add(file.getAbsolutePath()));
         Configuration config = new Configuration(new File("reports"), "karate-sample");
+        config.addPresentationModes(PresentationMode.RUN_WITH_JENKINS);
+        jsonPaths.forEach(filePath -> {
+            String qual = filePath.replaceAll(".*/surefire-reports/", "").replaceAll(".json", "");
+            System.out.println(filePath);
+            System.out.println(qual);
+            config.setQualifier(filePath, qual);
+        });
         ReportBuilder reportBuilder = new ReportBuilder(jsonPaths, config);
         reportBuilder.generateReports();
         return config.getReportDirectory().getAbsolutePath() + "/cucumber-html-reports/overview-features.html";

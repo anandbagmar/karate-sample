@@ -1,0 +1,49 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/Order/Payment/getResponse",
+    "form-fields": {
+      "Request": {
+        "Body": {
+          "RefNo": "",
+          "DeviceId": "",
+          "POSTerminalId": "",
+          "PayMode": null,
+          "Product": "",
+          "RequestTime": "",
+          "StoreId": "",
+          "Version": "",
+          "CategoryId": null
+        },
+        "Header": {
+          "RequestId": "",
+          "DeviceId": "",
+          "Product": "",
+          "RequestTime": "",
+          "Version": ""
+        }
+      }
+    }
+  },
+  "http-response": {
+    "status": #(expectedStatus),
+    "body": {
+      "Control": {
+        "Status": 1,
+        "Message": #(expectedMessage),
+        "TimeTaken": "0.065351009368896 Second"
+      },
+      "Data": {
+        "Status": 1,
+        "Time": "09-Jul-2020 04:16 PM",
+        "Amount": "600.00",
+        "RefNo": #(generateRandomNumber(9)),
+        "Message": "SUCCESS",
+        "Reason": "APPROVED",
+        "BillNo": #(generateRandomNumber(9)),
+        "ModeOfPayment": "NetBanking",
+        "LTM": "api.jiomoney.com"
+      }
+    }
+  }
+}

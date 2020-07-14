@@ -1,0 +1,91 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/Order/Payment/getRequest",
+    "form-fields": {
+      "Request": {
+        "Body": {
+          "Amount": "0",
+          "IsEcomm": 1,
+          "MobileNo": "",
+          "PurchaseDetails": null,
+          "PurchaseId": "",
+          "SplitDetails": [
+            {
+              "Amount": "",
+              "MID": "",
+              "TID": ""
+            }
+          ],
+          "SupplierId": "",
+          "TimeStamp": "",
+          "DeviceId": "",
+          "POSTerminalId": "",
+          "PayMode": null,
+          "Product": "",
+          "RequestTime": "",
+          "StoreId": "",
+          "Version": "",
+          "CategoryId": null
+        },
+        "Header": {
+          "DeviceId": "",
+          "Product": "",
+          "Version": "",
+          "RequestTime": "",
+          "RequestId": ""
+        }
+      }
+    }
+  },
+  "http-response": {
+    "status": #(expectedStatus),
+    "body": {
+      "Control": {
+        "Status": 1,
+        "Message": #(expectedMessage),
+        "TimeTaken": "0.08529806137085 Second"
+      },
+      "Data": {
+        "SUPERMID": "100001000217419",
+        "CLIENTID": "10006200",
+        "MERCHANTNAME": "JIO",
+        "CHANNEL": "WEB",
+        "CURRENCY": "INR",
+        "TXNTYPE": "PURCHASE",
+        "Time": #(timeStamp),
+        "Checksum": "17c383a2727dafd6cebdd886e004bfb7e0f2d6d15ffa30edd2483c5dbf5ebf14",
+        "Amount": #(splitDetails.Amount),
+        "RefNo": #(generateRandomNumber(9)),
+        "ReturnUrl": "https://pp-static.jiomoney.com/payment/responseEcomm",
+        "PaymentUrl": "https://sitpg.rpay.co.in/reliance-webpay/v1.0/jiopayments",
+        "Version": #(apiVersion),
+        "MobileNumber": #(store.phoneNumber),
+        "Customerid": "#(store.phoneNumber)",
+        "IncludePayModes": "JM|NB|CC|DC|UP",
+        "ExcludePayModes": "COD",
+        "ProductDescription": "ECOMMAPI",
+        "UDF1": "100478722",
+        "UDF2": "",
+        "UDF3": "PayEnabled_0",
+        "UDF4": "10000011$100001000217419",
+        "UDF5": "",
+        "SIFlag": "",
+        "SICustomerId": "",
+        "SIProductId": "",
+        "SIProductDesc": "",
+        "SIMaxAmount": "",
+        "SIFrequency": "",
+        "SIExpiryDate": "",
+        "SIAmountType": "",
+        "JMAcctType": "JPB",
+        "Addline1": "Unnamed Road, Shele, Maharashtra 421303,",
+        "Addline2": "null,India",
+        "City": "Thane",
+        "State": "Maharashtra",
+        "Zipcode": "421303",
+        "LTM": "api.jiomoney.com"
+      }
+    }
+  }
+}

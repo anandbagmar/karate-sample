@@ -1,0 +1,47 @@
+Feature: Qontract File of getResponse API
+
+  Scenario Outline: getResponse API Qontract
+    Given type Body
+      | RefNo         | (string) |
+      | DeviceId      | (string) |
+      | POSTerminalId | (string) |
+      | PayMode       | (null)   |
+      | Product       | (string) |
+      | RequestTime   | (string) |
+      | StoreId       | (string) |
+      | Version       | (string) |
+      | CategoryId    | (null)   |
+    And type Header
+      | RequestId   | (string)               |
+      | DeviceId    | (DeviceId_: string)    |
+      | Product     | (Product_: string)     |
+      | RequestTime | (RequestTime_: string) |
+      | Version     | (Version_: string)     |
+    And type Request
+      | Body   | (Body)   |
+      | Header | (Header) |
+    And type Control
+      | Status    | (number) |
+      | Message   | (string) |
+      | TimeTaken | (string) |
+    And type Data
+      | Status        | (Status_: number)  |
+      | Time          | (string)           |
+      | Amount        | (string)           |
+      | RefNo         | (string)           |
+      | Message       | (Message_: string) |
+      | Reason        | (string)           |
+      | BillNo        | (string)           |
+      | ModeOfPayment | (string)           |
+      | LTM           | (string)           |
+    And type ResponseBody
+      | Control | (Control) |
+      | Data    | (Data)    |
+    When POST Order/Payment/getResponse
+    And form-field Request (Request)
+    Then status 200
+    And response-body (ResponseBody)
+
+    Examples:
+      | RefNo     | DeviceId        | POSTerminalId | Product | RequestTime   | StoreId | Version | RequestId | DeviceId_        | Product_ | RequestTime_  | Version_ |
+      | 100282155 | 911498801328414 | 100424192     | 2       | 1594291591596 | 1419973 | 2.0     | 104674185 | 2c91be3ebd194a25 | 2        | 1594291591625 | 2.1      |
