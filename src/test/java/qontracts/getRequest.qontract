@@ -78,7 +78,7 @@ Feature: New Feature
       | Control | (Control) |
       | Data    | (Data)    |
     When POST /Order/Payment/getRequest
-    And form-field Request (Request)
+    And form-field Data (Request)
     Then status 200
     And response-body (ResponseBody)
 

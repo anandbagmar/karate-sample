@@ -3,7 +3,7 @@
     "method": "POST",
     "path": "/Order/Payment/getRequest",
     "form-fields": {
-      "Request": {
+      "Data": {
         "Body": {
           "Amount": "0",
           "IsEcomm": 1,

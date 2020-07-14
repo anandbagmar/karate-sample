@@ -42,14 +42,13 @@ Feature: Payment related scenarios
     When method POST
     Then print "Response from _qontract/expectations: " + response
     * status 200
-    * eval waitFor(2)
 
   @t_getRequest @template
   Scenario: When merchant clicks on Pay Now to pay for his order
     And def getRequestData =
     """
     {
-      "Request": {
+      "Data": {
         "Body": {
           "Amount": "0",
           "IsEcomm": 1,
@@ -73,14 +72,15 @@ Feature: Payment related scenarios
       }
     }
     """
-    And set getRequestData.Request.Header = requestBodyHeaders_v1
+    And set getRequestData.Data.Header = requestBodyHeaders_v1
     And print "getRequestData: " + getRequestData
     * call read('classpath:features/MultipleExpectations.feature@q_getRequest_expectations') { getRequestData: #(getRequestData) }
 
     Given url "http://localhost:9000"
     And path '/Order/Payment/getRequest'
-    And form field Data = getRequestData
+    * print getRequestData
+    And form field Data = getRequestData.Data
     When method POST
     * print "Response from getRequest: " + response
     Then match responseStatus == expectedStatus
-    * eval waitFor(2)
+#    * eval waitFor(2)
