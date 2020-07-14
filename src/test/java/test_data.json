@@ -14,14 +14,14 @@
     "state": "stable",
     "generatedToken": "invalid-qa",
     "store": {
-      "firstName": "Keventer",
+      "firstName": "storename",
       "phoneNumber": 6698754546,
-      "password": "Jio@1357",
+      "password": "mynewpassword",
       "storeID": "1419976",
       "mid": "100001000217534",
       "uuid": "803511d5-51db-4e85-ac94-2360d60947a5",
       "tid": "10232871",
-      "userId": 10850492,
+      "userId": 123432,
       "imei": "99000749251683",
       "posTerminalID": "10232871"
     },
