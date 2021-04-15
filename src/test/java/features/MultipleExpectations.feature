@@ -20,7 +20,6 @@ Feature: Payment related scenarios
 
     """
 
-  @foo
   Scenario Outline: When merchant clicks on Pay Now to pay for his order
     * call read('classpath:features/MultipleExpectations.feature@t_getRequest') { expectedStatus: <Status>, splitDetails: <SplitDetails>, purchaseId: <PurchaseId>, timeStamp: <TimeStamp>, version: <Version>, apiVersion: <ApiVersion>, expectedMessage: <Message> }
     And match response.Control.Message == <Message>

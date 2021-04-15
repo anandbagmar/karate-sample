@@ -43,7 +43,7 @@ public class APITest {
         strings.add("~@template");
         if ((null != customTagsToRun) && (!customTagsToRun.trim().isEmpty())) { strings.add(customTagsToRun); }
         System.out.println("Run tests with tag - " + strings);
-        results = Runner.path("classpath:features").tags(strings).reportDir("reports/surefire-reports").parallel(parallelCount);
+        results = Runner.path("classpath:features").tags(strings).outputCucumberJson(true).reportDir("reports/surefire-reports").parallel(parallelCount);
     }
 
     @After
@@ -58,14 +58,16 @@ public class APITest {
     }
 
     public static void main(String[] args) {
-        String reportLocation = generateReport("/Users/anandbagmar/projects/my/karate-sample/reports/surefire-reports");
+        String reportLocation = generateReport("reports/surefire-reports");
         System.out.println("Reports available here: " + reportLocation);
     }
+
     private static String generateReport(String karateOutputPath) {
         System.out.println("================================");
         System.out.println("Generating reports");
         System.out.println("================================");
         Collection<File> jsonFiles = FileUtils.listFiles(new File(karateOutputPath), new String[]{"json"}, true);
+        System.out.println("Number of json files found: " + jsonFiles.size());
         List<String> jsonPaths = new ArrayList(jsonFiles.size());
         jsonFiles.forEach(file -> jsonPaths.add(file.getAbsolutePath()));
         Configuration config = new Configuration(new File("reports"), "karate-sample");
